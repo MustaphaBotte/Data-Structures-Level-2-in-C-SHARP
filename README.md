@@ -150,17 +150,6 @@ Strong understanding first → meaningful practice later.
 
 ---
 
-## 🧑‍💻 Who This Repository Is For
-
-This repository may help:
-
-* C# developers strengthening backend foundations
-* Students learning advanced data structures
-* Anyone who wants to **stop guessing** and start **choosing the right data structure**
-
-It is **not intended for absolute beginners**.
-
----
 
 ## 🏁 Expected Outcome
 
