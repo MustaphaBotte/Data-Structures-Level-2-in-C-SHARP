@@ -30,7 +30,8 @@ namespace Boxing
 
             // NOW TO THE UNBOXING
             // in short unboxing it's the inverse process of boxing
-            //it allows is to convert the object in the heap to it's original data type like this:
+            // it's the process of extracting a value type from an object
+            //it allows us to convert the value of the object on the heap to it's original data type like this:
             int Original_x = (int)wrapper;
             // now Original_x is an Interger
             //Note: you must convert the object to it's valid original type otherwise you will get an Error called : InvalidCastException
