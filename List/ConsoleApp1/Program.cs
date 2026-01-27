@@ -52,7 +52,7 @@ namespace ConsoleApp1
             my_list.Remove(10);   
             Console.WriteLine("List after delete  : " + string.Join(" ,", my_list));
             // internally it will search for the index of that item so it's O(n)
-            // then if we are deleting the last item so no shift is needed just clear the last element by GC
+            // then if we are deleting the last item so no shift is needed just clear the last element by GC but only if T is a reference type 
             // note that the size is reduced by 1
             // and if the deletion if operated on an item in the middle of in the beginning so the shifting is needed and
             // it will cost O(n) again
@@ -61,7 +61,21 @@ namespace ConsoleApp1
 
             Console.WriteLine("List after delete  : " + string.Join(" ,", my_list));
 
+            my_list.RemoveRange(2, 1);
+            Console.WriteLine("List after delete  : " + string.Join(" ,", my_list));
+            // if we are deleting only the last item then it's O(1)
+            // otherwise the shift operation is needed so it's O(n)
 
+            my_list.RemoveAll((int current_val) =>
+            {
+                return current_val >= 40;
+            });
+            Console.WriteLine("List after delete  : " + string.Join(" ,", my_list));
+
+
+            my_list.Clear();
+            Console.WriteLine(my_list.Capacity); // the capacity still 8 because
+            Console.WriteLine(my_list.Count); //but the count is 0
 
 
 
