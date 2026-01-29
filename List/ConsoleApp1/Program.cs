@@ -19,7 +19,7 @@ namespace ConsoleApp1
             // so the list will be resized to capacity * 2
             Console.WriteLine(my_list.Capacity); // output = 8
 
-            Console.WriteLine(my_list[0]);  // accessing the first element
+            Console.WriteLine(my_list[0]);  // accessing the first element in the list
             my_list[1] = 1400; // updating the second element
             //Console.WriteLine(my_list[5]); // error out  of range
         }
