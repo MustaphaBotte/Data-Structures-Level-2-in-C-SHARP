@@ -1,11 +1,10 @@
-﻿using System.Diagnostics;
+﻿
+using Microsoft.VisualBasic;
 
 namespace ConsoleApp1
 {
     internal class Program
     {
- 
-
         private static void IntroductionToList()
         {
             List<int> my_list = new List<int>();
@@ -74,19 +73,44 @@ namespace ConsoleApp1
 
 
             my_list.Clear();
-            Console.WriteLine(my_list.Capacity); // the capacity still 8 because
+            Console.WriteLine(my_list.Capacity); // the capacity still 8 
             Console.WriteLine(my_list.Count); //but the count is 0
 
 
 
         }
+
+        private static void Lopping()
+        {
+            List<int> my_list = new List<int> { 10, 20, 30, 40, 50 };
+
+            int length = my_list.Count;
+            Console.WriteLine("using for loop");
+            for(int i=0;i<length;i++)
+            {
+                Console.Write(my_list[i]+" ");
+            }
+
+            Console.WriteLine("\nusing for each");
+
+        
+            foreach (int item in my_list)
+            {
+                Console.Write(item + " ");
+
+            }
+            Console.WriteLine("\nusing lambda expression");
+            my_list.ForEach(current => Console.Write(current+" "));
+
+           
+        }
+
         static void Main(string[] args)
         {
             // IntroductionToList();
-            //InsertingInto_List();
-          
-            RemoveFromList();
-           
+            // InsertingInto_List();       
+            // RemoveFromList();
+            Lopping();
 
         }
 
