@@ -1,5 +1,4 @@
 ﻿
-using Microsoft.VisualBasic;
 
 namespace ConsoleApp1
 {
@@ -102,16 +101,40 @@ namespace ConsoleApp1
             Console.WriteLine("\nusing lambda expression");
             my_list.ForEach(current => Console.Write(current+" "));
 
-           
         }
 
+        private static void Aggregate()
+        {
+            List<int> my_list = new List<int> { 10, 20, 30, 40, 50 };
+
+            Console.WriteLine("Sum :"+my_list.Sum());
+            Console.WriteLine("Average :" + my_list.Average());
+            Console.WriteLine("Max :" + my_list.Max());
+            Console.WriteLine("Count :" + my_list.Count());
+
+        }
+
+        public static void Filter()
+        {
+
+            List<int> Numbers = new List<int> { 50, 52, 45, 18, 45, 95, 45,100,120,180 };
+            Console.WriteLine("numbers that are  >= 100 :"+string.Join(" ", Numbers.Where(current => current >= 100)));
+            Console.WriteLine("all even numbers :" + string.Join(" ", Numbers.Where(current => current %2==0)));
+            Console.WriteLine("skipping one elemnt each time :" + string.Join(" ", Numbers.Where((current,index) => index%2==1)));
+
+            List<string> names = new List<string> { "ahmed", "amine", "karim", "omar","sami" };
+            Console.WriteLine("name with only four chars: "+string.Join(", ",names.Where(name=>name.Length==4)));
+
+        }
         static void Main(string[] args)
         {
             // IntroductionToList();
             // InsertingInto_List();       
             // RemoveFromList();
-            Lopping();
-
+            //Lopping();
+            //Aggregate();
+            Filter();
+    
         }
 
     }
