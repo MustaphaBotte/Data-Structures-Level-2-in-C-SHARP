@@ -196,14 +196,31 @@ namespace ConsoleApp1
             //Contains function
             Console.WriteLine("is name exists : "+names.Contains("ahmed"));
             Console.WriteLine("Persons contains :"+Persons.Contains(new Person(2, "monir"),new PersonComparer()));
-            Console.WriteLine("Numbers contains :" + Numbers.Contains(100));
+            Console.WriteLine("Numbers contains :" + Numbers.Contains(100));// returns true in the firts occurence
 
             //exists
             Console.WriteLine("has negative number :"+Numbers.Exists(num=>num<0));
             Console.WriteLine("has name with more than six chars: "+Persons.Exists(person=>person.name.Length>=6));
             Console.WriteLine("has number bigger than 100 :" + Numbers.Exists(delegate(int n){ return n > 100; }));
 
+            //find
+            var num = Numbers.Find(num => num == 50);  // return the first occurence
+            Console.WriteLine(num);
 
+            var person = Persons.Find(person => person.name.StartsWith("k"));
+            Console.WriteLine(person?.id);
+
+
+            // find all
+            var SearchedPersons = Persons.FindAll(p => p.name.Length <= 5); // returns all matched ones as a List
+            Console.WriteLine(SearchedPersons.Count());
+
+
+            // any
+            Console.WriteLine(names.Any(name=>name=="ahmed"));
+
+            // NOTE:  use Any()  without condition or the the Count Property dont do this : Count()>0 . because the count() traverse the entire list each time
+            //  and any retun true in the first element and Count uses the cached value
         }
         static void Main(string[] args)
         {
