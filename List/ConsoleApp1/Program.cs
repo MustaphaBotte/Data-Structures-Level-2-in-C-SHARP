@@ -1,9 +1,37 @@
-﻿
+﻿class Person : IComparable<Person>
+{
+    public int id;
+    public string name = "";
+    public Person(int _id, string name)
+    {
+        this.id = _id;
+        this.name = name;
+    }
+    public int CompareTo(Person? p)
+    {
+        if(p==null)throw new ArgumentNullException(nameof(p));
+        if (p.id > this.id) return -1;
+        if (p.id < this.id) return 1;
+        return 0;
+    }
+}
+class PersonComparer : IEqualityComparer<Person>
+{
+    public bool Equals(Person? p1, Person? p2)
+    {
+        return p2.id == p1.id;
+    }
+    public int GetHashCode(Person p)
+    {
+        return this.GetHashCode();
+    }
+}
 
 namespace ConsoleApp1
 {
     internal class Program
     {
+       
         private static void IntroductionToList()
         {
             List<int> my_list = new List<int>();
@@ -114,7 +142,7 @@ namespace ConsoleApp1
 
         }
 
-        public static void Filter()
+        public static void Filtering()
         {
 
             List<int> Numbers = new List<int> { 50, 52, 45, 18, 45, 95, 45,100,120,180 };
@@ -125,6 +153,57 @@ namespace ConsoleApp1
             List<string> names = new List<string> { "ahmed", "amine", "karim", "omar","sami" };
             Console.WriteLine("name with only four chars: "+string.Join(", ",names.Where(name=>name.Length==4)));
 
+            // behind the scenes the linq extention function calls your function for each element, and if you're function returns true,
+            // the element pushed to the returned list
+        }
+        public static void Sorting()
+        {
+            List<string> names = new List<string> { "ahmed", "amine", "karim", "omar", "sami" };
+            List<Person> Persons = new List<Person> { new Person(10,"kaarim"), new Person(2,"monir"), new Person(3,"hamide") }; // require the implementation of
+            //Icomparable interface
+         
+            Persons.Sort();
+            Console.WriteLine("Sorted persons by id :");
+            Persons.ForEach(person => Console.WriteLine(person.id.ToString()));
+            
+            Persons.Reverse();
+            Console.WriteLine("reverse persons by id :");
+            Persons.ForEach(person => Console.WriteLine(person.id.ToString()));
+
+
+
+            // or with simple why 
+            // Note : the first mothods are mutating the originla list
+
+            Persons = Persons.OrderBy(person => person.name).ToList(); // order by name
+            Console.WriteLine("order by name ASC");
+            Persons.ForEach(element => Console.WriteLine(element.name.ToString()));
+
+
+            Persons = Persons.OrderByDescending(Person => Person.name).ToList<Person>(); // order by name
+            Console.WriteLine("order by name DESC");
+            Persons.ForEach(element => Console.WriteLine(element.name.ToString()));
+
+
+        }
+
+        public static void MoreFunctions()
+        {
+            List<string> names = new List<string> { "ahmed", "amine", "karime", "omar", "sami" };
+            List<Person> Persons = new List<Person> { new Person(10, "kaarim"), new Person(2, "monir"), new Person(3, "hamide") };
+            List<int> Numbers = new List<int> { 50, 52, 45, 18, 45, 95, 45, 100, 120, -180 };
+
+            //Contains function
+            Console.WriteLine("is name exists : "+names.Contains("ahmed"));
+            Console.WriteLine("Persons contains :"+Persons.Contains(new Person(2, "monir"),new PersonComparer()));
+            Console.WriteLine("Numbers contains :" + Numbers.Contains(100));
+
+            //exists
+            Console.WriteLine("has negative number :"+Numbers.Exists(num=>num<0));
+            Console.WriteLine("has name with more than six chars: "+Persons.Exists(person=>person.name.Length>=6));
+            Console.WriteLine("has number bigger than 100 :" + Numbers.Exists(delegate(int n){ return n > 100; }));
+
+
         }
         static void Main(string[] args)
         {
@@ -133,8 +212,9 @@ namespace ConsoleApp1
             // RemoveFromList();
             //Lopping();
             //Aggregate();
-            Filter();
-    
+            //Filtering();
+            //Sorting();
+            MoreFunctions();
         }
 
     }
