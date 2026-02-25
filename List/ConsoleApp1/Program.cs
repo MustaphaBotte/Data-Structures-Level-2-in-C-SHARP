@@ -219,8 +219,29 @@ namespace ConsoleApp1
             // any
             Console.WriteLine(names.Any(name=>name=="ahmed"));
 
+
+
+
+
             // NOTE:  use Any()  without condition or the the Count Property dont do this : Count()>0 . because the count() traverse the entire list each time
-            //  and any retun true in the first element and Count uses the cached value
+            //  and any() retun true in the first element and Count uses the cached value
+        }
+
+        public static void ListToArray()
+        {
+            List<string> names = new List<string> { "ahmed", "amine", "karime", "omar", "sami" };
+            string[] namesAsArray = names.ToArray();
+            Console.WriteLine("as an array "+string.Join(", ",namesAsArray));
+            // Note : internally .Net uses Array.copy() so the big(O) is o(n)
+            // so be careful my friend 
+        }
+        public static void ArrayToList()
+        {
+           
+            string[] namesAsArray = { "ahmed", "amine", "karime", "omar", "sami" };
+            List<string> namesAsList = new List<string>(namesAsArray);
+            Console.WriteLine("as a List " + string.Join(", ", namesAsList));
+           
         }
         static void Main(string[] args)
         {
@@ -231,7 +252,9 @@ namespace ConsoleApp1
             //Aggregate();
             //Filtering();
             //Sorting();
-            MoreFunctions();
+            //MoreFunctions();
+            //ListToArray();
+            ArrayToList();
         }
 
     }
