@@ -9,7 +9,13 @@ namespace HashTables
         {
             //this data strtucture is non generic
             // it means we have an overhead caused by boxing and unboxing
-            Hashtable hashtable = new Hashtable();
+            Hashtable hashtable = new Hashtable(capacity:5) // initialize the capacity by 5 entries 
+            //but •	Internally, the actual bucket array size may be a prime number greater than or equal to 5 (for better hash distribution).
+            {
+                {"key",1 },
+                {"key0",0 }
+                // you can also use the constructor
+            };
             hashtable["key1"] = 10;
             hashtable["key1"] = 22; // if you want to add a key that is already exists, it will be overrided
 
