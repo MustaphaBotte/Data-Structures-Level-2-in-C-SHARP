@@ -1,9 +1,16 @@
 ﻿using System.Collections;
-using System.Globalization;
 namespace ConsoleApp1
 {
     internal class Program
     {
+        private static void PrintDictionaryContent<TKey, TValue>(Dictionary<TKey,TValue> source) where TKey : notnull
+        {
+            foreach (KeyValuePair<TKey, TValue> entry in source)
+            {
+                Console.WriteLine($"KEY {entry.Key}, VALUE {entry.Value}");
+            }
+        }
+      
         static void Main(string[] args)
         {
             Dictionary<string, string> BookNumbers = new Dictionary<string, string>()
@@ -13,8 +20,8 @@ namespace ConsoleApp1
             BookNumbers["ahmed"] = "0754545454"; // modify the entry value
 
             BookNumbers.Add("mustapha", "0645454545");
-            BookNumbers.Add("amine", "0645454545");
-            BookNumbers.Add("karim", "0645454545");
+            BookNumbers.Add("amine", "0545454545");
+            BookNumbers.Add("karim", "0745454545");
             BookNumbers.Add("karime", "0645454545");
 
 
@@ -25,13 +32,11 @@ namespace ConsoleApp1
 
 
             BookNumbers.Remove("ahmed", out string? DeletedValue); //DeletedValue may be  null if the key is not exists
-            Console.WriteLine($"Ahmed is deleted with phone number = {DeletedValue}");
+            Console.WriteLine($"\nAhmed is deleted with phone number = {DeletedValue}");
 
 
-            foreach (KeyValuePair<string, string> entry in BookNumbers)
-            {
-                Console.WriteLine($"KEY {entry.Key}, VALUE {entry.Value}");
-            }
+            PrintDictionaryContent(BookNumbers);
+            
             BookNumbers.ContainsKey("ahmed"); // true is yes false if not. the complexity is  O(1) but it may be O(n)in worst case  because of hash collisions
             BookNumbers.ContainsValue("0645454545");  // true is yes false if not. the complexity is  O(n) Linear scan through all entries.
 
@@ -42,16 +47,61 @@ namespace ConsoleApp1
             BookNumbers.TrimExcess(); // ensure that the capacity of the dictinary is sets to the inital state
             // means the nearest prime number to the Count of the entries;
 
-            Console.WriteLine(BookNumbers.EnsureCapacity(0)); // just to print the capacity 
+            Console.WriteLine("\n"+BookNumbers.EnsureCapacity(0)); // just to print the capacity 
 
 
             BookNumbers.TryGetValue("karim", out string? number);
-            Console.WriteLine(number ?? "Not Found");
+            Console.WriteLine(number ?? "Not Found  \n");
             // or you can use if condition because the TryGet retunrs true is the value if  founded
             // otherwise the value will hold the default value of it's data type
 
             //-------------------------------------- LINQ --------------------------------------------------------
 
+            IEnumerable<string> result = BookNumbers.Select(kvp => $"KEY {kvp.Key}, VALUE {kvp.Value}"); // this compiler knows the return type 
+            // from the lambda return type. this is called inference
+            foreach (var item in result)
+            {
+                Console.WriteLine(item);
+            }
+
+            var result2 = BookNumbers.Select(kvp => new  {kvp.Key,kvp.Value }); // this create an anonymous type, thats why i used var
+            foreach (var obj in result2)
+            {
+                Console.WriteLine($"KEY {obj.Key}, VALUE {obj.Value}");
+            }
+            // if the value is a list you can use SelectMany function
+
+           var FiltredData =BookNumbers.Where(kvp => kvp.Value.StartsWith("06")); // where returns an IEnumerable that contains the 
+            // KVP that returns true in the predicate
+
+            Console.WriteLine("\nPhone numbers with 06");
+            foreach (var kvp in FiltredData)
+            {
+                Console.WriteLine($"KEY {kvp.Key}, VALUE {kvp.Value}");
+            }
+
+            Console.WriteLine("`\nSorting the dictionary by the key");
+            var OrderdData = BookNumbers.OrderBy(KVP=>KVP.Key); // or use OrderByDescending  
+            foreach (var entry in OrderdData)
+            {
+                Console.WriteLine($"KEY {entry.Key}, VALUE {entry.Value}");
+            }
+            // Note that the OrderBy does not modify the original dictionary 
+
+
+            string? MinNumber = BookNumbers.Min(Kvp => Kvp.Value); // return only the value
+            Console.WriteLine("\n Smallest phone number is :" + MinNumber);
+
+            var MinEntry = BookNumbers.MinBy(Kvp => Kvp.Value); // returns the entire entry
+            Console.WriteLine("\n Smallest phone  number is "+ MinEntry.Value);
+
+
+            Console.WriteLine("===================================");
+            PrintDictionaryContent(BookNumbers);
+
+            var element = BookNumbers.ElementAt(3); // element at index 3 using GetEnumeretor().moveNext()
+            Console.WriteLine(element.Key);
         }
-    }
-}
+    }  
+       
+}git add .
