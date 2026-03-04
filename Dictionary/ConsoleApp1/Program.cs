@@ -16,7 +16,7 @@ namespace ConsoleApp1
             BookNumbers.Add("amine", "0645454545");
             BookNumbers.Add("karim", "0645454545");
             BookNumbers.Add("karime", "0645454545");
-          
+
 
             BookNumbers["ahmed"] = "0600000000";//even if it's already exists , the dictionary will just override it without any run time exception
 
@@ -24,11 +24,11 @@ namespace ConsoleApp1
             // 'An item with the same key has already been added. Key: ahmed'
 
 
-            BookNumbers.Remove("ahmed",out string? DeletedValue); //DeletedValue may be  null if the key is not exists
+            BookNumbers.Remove("ahmed", out string? DeletedValue); //DeletedValue may be  null if the key is not exists
             Console.WriteLine($"Ahmed is deleted with phone number = {DeletedValue}");
 
 
-            foreach (KeyValuePair<string,string> entry in BookNumbers)
+            foreach (KeyValuePair<string, string> entry in BookNumbers)
             {
                 Console.WriteLine($"KEY {entry.Key}, VALUE {entry.Value}");
             }
@@ -45,12 +45,13 @@ namespace ConsoleApp1
             Console.WriteLine(BookNumbers.EnsureCapacity(0)); // just to print the capacity 
 
 
-            BookNumbers.TryGetValue(null, out string? number);
-            Console.WriteLine(number??"Not Found");
+            BookNumbers.TryGetValue("karim", out string? number);
+            Console.WriteLine(number ?? "Not Found");
             // or you can use if condition because the TryGet retunrs true is the value if  founded
             // otherwise the value will hold the default value of it's data type
-         
-            Console.WriteLine();
+
+            //-------------------------------------- LINQ --------------------------------------------------------
+
         }
     }
 }
