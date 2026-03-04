@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Runtime.InteropServices;
 namespace ConsoleApp1
 {
     internal class Program
@@ -92,7 +93,7 @@ namespace ConsoleApp1
             string? MinNumber = BookNumbers.Min(Kvp => Kvp.Value); // return only the value
             Console.WriteLine("\n Smallest phone number is :" + MinNumber);
 
-            var MinEntry = BookNumbers.MinBy(Kvp => Kvp.Value); // returns the entire entry
+            var MinEntry = BookNumbers.MinBy(Kvp => Kvp.Value); // retussrns the entire entry
             Console.WriteLine("\n Smallest phone  number is "+ MinEntry.Value);
 
 
@@ -101,7 +102,65 @@ namespace ConsoleApp1
 
             var element = BookNumbers.ElementAt(3); // element at index 3 using GetEnumeretor().moveNext()
             Console.WriteLine(element.Key);
+
+
+
+            Console.WriteLine("====================================   Advanced LINQ Queries with Dictionaries ======================================= ");
+
+            Dictionary<string, string> BooksCategory = new Dictionary<string, string>(6);
+            BooksCategory.Add("learn c++", "programming");
+            BooksCategory.Add("learn c#", "programming");
+
+            BooksCategory.Add("learn linux", "os");
+            BooksCategory.Add("learn unix", "os");
+
+            BooksCategory.Add("learn iso", "networks");
+            BooksCategory.Add("read got book", "fantasy");
+            BooksCategory.Add("read viking book", "fantasy");
+
+            BooksCategory.Add("learn adobe", "photoshop");
+            BooksCategory.Add("learn canva", "photoshop");
+
+            IEnumerable<IGrouping<string,KeyValuePair<string,string>>> BooksGroup = BooksCategory.GroupBy(Kvp => Kvp.Value);
+
+            foreach(IGrouping<string, KeyValuePair<string, string>> group in BooksGroup)
+            {
+                Console.Write($"\n{group.Key} :");
+                foreach (KeyValuePair<string,string> book in group)
+                {
+                    Console.Write($"{book.Key} ,");
+                }
+                Console.WriteLine();
+            }
+
+            Dictionary<string, int> Products_Quantity = new Dictionary<string, int>();
+
+            Products_Quantity.Add("Apple TV", 10);
+            Products_Quantity.Add("Samsung A10", 5);
+            Products_Quantity.Add("Bike", 15);
+            Products_Quantity.Add("Usb", 18);
+            Products_Quantity.Add("Ball", 12);
+            Products_Quantity.Add("Laptop", 50);
+            Products_Quantity.Add("Watch", 70);
+
+            IEnumerable<string> FiltredPrducts = Products_Quantity.Where(prod => prod.Value < 20).
+                OrderBy(prod => prod.Key).
+                Select(prod => $"Product Name : {prod.Key} , Quantity :{prod.Value}");
+
+            // Note that this query chain will not execute until we use it in a foreach or in other operation
+            // this is by design in LINQ for better performance 
+
+            foreach (string item in FiltredPrducts)
+            {
+                Console.WriteLine(item);
+            }
+
+
+
+
         }
+
+
     }  
        
-}git add .
+}
