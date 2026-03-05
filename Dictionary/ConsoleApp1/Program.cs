@@ -11,7 +11,17 @@ namespace ConsoleApp1
                 Console.WriteLine($"KEY {entry.Key}, VALUE {entry.Value}");
             }
         }
-      
+        public class Student
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public int Grade { get; set; }
+
+            public override string ToString()
+            {
+                return $"ID : {Id}, Name : {Name}, Grade : {Grade}";
+            }
+        }
         static void Main(string[] args)
         {
             Dictionary<string, string> BookNumbers = new Dictionary<string, string>()
@@ -157,6 +167,30 @@ namespace ConsoleApp1
 
 
 
+            Console.WriteLine("======================== getting the first 3 students by grade =============================");
+
+            Dictionary<int, Student> studentsDic = new Dictionary<int, Student>
+            {
+                { 1, new Student { Id = 1, Name = "Ali", Grade = 45 }},
+                { 2, new Student { Id = 2, Name = "Zaid", Grade = 88 } },
+                { 3, new Student { Id = 3, Name = "Mariam", Grade = 95 } },
+                { 4, new Student { Id = 4, Name = "Omer", Grade = 72 } },
+                { 5, new Student { Id = 5, Name = "Aisha", Grade = 92 } },
+                { 6, new Student { Id = 6, Name = "Hassan", Grade = 30 } },
+                { 7, new Student { Id = 7, Name = "Sami", Grade = 85 } }
+            };
+
+          
+            IOrderedEnumerable< KeyValuePair<int,Student>> FiltredStudents = 
+                studentsDic.Where(student => student.Value.Grade>=50).
+                            OrderByDescending(student => student.Value.Grade).
+                            Take(3).
+                            OrderByDescending(student => student.Value.Name);
+
+            foreach (KeyValuePair<int, Student> student in FiltredStudents)
+            {
+                Console.WriteLine(student.Value.ToString());
+            }
 
         }
 
