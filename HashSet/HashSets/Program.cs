@@ -78,13 +78,35 @@ namespace HashSets
             // INTERSECTION
 
             Contacts1.IntersectWith(Contacts2);  // keep only the elements that are in both sets
-            // also O(n)
+            // also O(n) is best case and O(n²) in worst case
             Console.WriteLine("Intersection Contacts   :\n" +
               string.Join(" ,", Contacts1));
 
 
+            // now contact1 contains : 0600000003 ,0600000004 ,0600000005
+            // and contact2 constains: 0600000003 ,0600000004 ,0600000005 
+
+            // now we want to delete the elements from contact1 that are exists in contact2
+            Contacts1.ExceptWith(Contacts2); // the hashset now is empty
+            // also O(n) is best case and O(n²) in worst case
+            Console.WriteLine("after ExceptWith Contact2 :\n"+string.Join(", ",Contacts1));
 
 
+            Contacts1.Add("0600000003"); // now we want to  remove the intercections                      
+            //contact2 has {"0600000003","0600000004","0600000005"}
+            // so the Contact will contains only the last 2 elements
+            Contacts1.SymmetricExceptWith(Contacts2);
+            Console.WriteLine("after Symmetric Exception : "+ string.Join(", ",Contacts1));
+
+            //======================= Comparing two sets
+            HashSet<string> LastNames1 = new HashSet<string>() { "Botte", "mohemmed", "salimi" };
+            HashSet<string> LastNames2 = new HashSet<string>() { "Botte", "mohemmed", "salimi" };
+
+            Console.WriteLine("Equals ?"+ (LastNames1.SetEquals(LastNames2)?"yes":"No"));
+            // returns true if both have the same elements
+            // the best case is O(1) if we compare the set with itself or if they have different count or if "other" is null
+            // the average case is O(n) 
+            // the worst case is O(n²) (collision)
         }
 
     }
