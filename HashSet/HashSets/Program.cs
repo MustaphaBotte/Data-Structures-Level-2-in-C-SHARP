@@ -99,14 +99,38 @@ namespace HashSets
             Console.WriteLine("after Symmetric Exception : "+ string.Join(", ",Contacts1));
 
             //======================= Comparing two sets
-            HashSet<string> LastNames1 = new HashSet<string>() { "Botte", "mohemmed", "salimi" };
-            HashSet<string> LastNames2 = new HashSet<string>() { "Botte", "mohemmed", "salimi" };
+            HashSet<string> LastNames1 = new HashSet<string>() { "Botte", "salimi", "mohammed" };
+            HashSet<string> LastNames2 = new HashSet<string>() { "Bottpe", "mohammed", "salimi"};
 
             Console.WriteLine("Equals ?"+ (LastNames1.SetEquals(LastNames2)?"yes":"No"));
             // returns true if both have the same elements
             // the best case is O(1) if we compare the set with itself or if they have different count or if "other" is null
             // the average case is O(n) 
             // the worst case is O(n²) (collision)
+
+
+            // ================================= MORE ABOUTSETS ================================
+
+            // returns true if the first set is a part of the second set (regardless of order)
+            Console.WriteLine("lastNames1 is a Subset Of LastNames2? " + LastNames1.IsSubsetOf(LastNames2));
+            // Best case    :  O(1)  — first element is not found in other, returns false immediately
+            // Average case :  O(n)  — iterates all elements, each Contains is O(1)
+            // Worst case   :  O(n²) — iterates all elements + collisions degrade each Contains to O(n)
+
+
+            // returns true if the first set is containing the second set elements (regardless of order)
+            Console.WriteLine("lastNames2 is a container Of LastNames1? " + LastNames2.IsSupersetOf(LastNames1)); // true
+
+            Console.WriteLine("Is Proper subset? "+ LastNames1.IsProperSubsetOf(LastNames2));
+            //this function returns true only if the first set is a subset of another set + the other set has Count bigger that the first set
+
+            Console.WriteLine("Is Proper subset? " + LastNames1.IsProperSupersetOf(LastNames2));
+            //this function returns true only if the first set is a container of another set + the first set subset has Count bigger that the first set
+
+
+            Console.WriteLine("They overlapes ?" + LastNames1.Overlaps(LastNames2)); 
+            // this function returns true immediatly if any element exists is both sets
+
         }
 
     }
