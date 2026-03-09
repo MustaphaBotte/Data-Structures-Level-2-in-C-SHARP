@@ -33,6 +33,7 @@ namespace SortedSets
             // first loop to get the elements that needs to be deleted and put them in an array
 
 
+            #region LINQ
             // ================================= LINQ OPERTIONS =====================================
 
             SortedSet<Employee> Employees = new SortedSet<Employee>();
@@ -86,6 +87,33 @@ namespace SortedSets
                 Console.WriteLine("=========================================================================");
 
             }
+            #endregion
+
+
+            SortedSet<string> UserNames2 = new SortedSet<string>()
+            { 
+              "admin","user","robot","root"
+            };
+            UserNames.UnionWith(UserNames2);
+            Console.WriteLine("Union :"+string.Join(" ,",UserNames));
+
+            UserNames.IntersectWith(UserNames2);
+            Console.WriteLine("Intersections :" + string.Join(" ,", UserNames)); // now UserNames is empty
+
+
+            UserNames.Add("super_admin");
+            UserNames.ExceptWith(UserNames2);
+            Console.WriteLine("Except :" + string.Join(" ,", UserNames)); // only super_admin exists
+
+            UserNames2.Add("super_admin");
+            Console.WriteLine("Is subset    :" +UserNames.IsSubsetOf(UserNames2));  // true 
+            Console.WriteLine("Is superset  :" + UserNames2.IsSupersetOf(UserNames));  // true 
+
+            UserNames2.Clear();
+            UserNames2.Add("super_admin");
+            Console.WriteLine("Is equals  :" + UserNames2.SetEquals(UserNames));  // true // Log(n) if both are SortedSet
+
+
 
         }
         class Employee : IComparable<Employee>
