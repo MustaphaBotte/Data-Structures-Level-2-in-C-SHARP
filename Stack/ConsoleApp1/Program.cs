@@ -49,8 +49,9 @@ namespace ConsoleApp1
             // Output : 10
 
             VisitedPages.TrimExcess(); // O(n)
-            // resize the array capacity to the total elements
-         
+                                       // resize the array capacity to the total elements
+
+            VisitedPages.Clear();
 
         }
     }

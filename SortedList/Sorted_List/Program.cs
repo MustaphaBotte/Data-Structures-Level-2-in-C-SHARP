@@ -170,7 +170,7 @@ namespace Sorted_List
                 { 4, new Employee("Daisy", "IT", 80000) },
                 { 5, new Employee("Ethan", "Marketing", 45000) }
             };
-            var report = employees.Where(emp=>emp.Value.Department== "IT")
+            var report = employees.Where(emp=>emp.Value.Department== "ITgi")
                 .Where(emp=>emp.Value.Salary>=50000).
                 Select(emp=>$"Employee ID : {emp.Key} , Name{emp.Value.Name} , Department{emp.Value.Department}, Salary {emp.Value.Salary}");
 
@@ -179,8 +179,7 @@ namespace Sorted_List
                 Console.WriteLine(EmployeeInfo);
             }
 
-
-
+           
         }
         public class Employee
         {

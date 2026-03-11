@@ -142,7 +142,7 @@ namespace ConsoleApp1
 
         }
 
-        public static void Filtering()
+        private static void Filtering()
         {
 
             List<int> Numbers = new List<int> { 50, 52, 45, 18, 45, 95, 45,100,120,180 };
@@ -156,7 +156,8 @@ namespace ConsoleApp1
             // behind the scenes the linq extention function calls your function for each element, and if you're function returns true,
             // the element pushed to the returned list
         }
-        public static void Sorting()
+
+        private static void Sorting()
         {
             List<string> names = new List<string> { "ahmed", "amine", "karim", "omar", "sami" };
             List<Person> Persons = new List<Person> { new Person(10,"kaarim"), new Person(2,"monir"), new Person(3,"hamide") }; // require the implementation of
@@ -187,7 +188,7 @@ namespace ConsoleApp1
 
         }
 
-        public static void MoreFunctions()
+        private static void MoreFunctions()
         {
             List<string> names = new List<string> { "ahmed", "amine", "karime", "omar", "sami" };
             List<Person> Persons = new List<Person> { new Person(10, "kaarim"), new Person(2, "monir"), new Person(3, "hamide") };
@@ -227,7 +228,7 @@ namespace ConsoleApp1
             //  and any() retun true in the first element and Count uses the cached value
         }
 
-        public static void ListToArray()
+        private static void ListToArray()
         {
             List<string> names = new List<string> { "ahmed", "amine", "karime", "omar", "sami" };
             string[] namesAsArray = names.ToArray();
@@ -235,14 +236,20 @@ namespace ConsoleApp1
             // Note : internally .Net uses Array.copy() so the big(O) is o(n)
             // so be careful my friend 
         }
-        public static void ArrayToList()
+
+        private static void ArrayToList()
         {
            
             string[] namesAsArray = { "ahmed", "amine", "karime", "omar", "sami" };
             List<string> namesAsList = new List<string>(namesAsArray);
             Console.WriteLine("as a List " + string.Join(", ", namesAsList));
-           
+
         }
+
+
+
+
+
         static void Main(string[] args)
         {
             // IntroductionToList();
@@ -254,7 +261,7 @@ namespace ConsoleApp1
             //Sorting();
             //MoreFunctions();
             //ListToArray();
-            ArrayToList();
+            //ArrayToList();
         }
 
     }

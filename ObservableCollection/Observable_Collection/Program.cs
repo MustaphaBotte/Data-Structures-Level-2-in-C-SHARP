@@ -61,7 +61,7 @@ namespace Observable_Collection
             UserNames[2]="root";
             UserNames.Move(0, UserNames.Count - 1); // move the first element to the last
             UserNames.RemoveAt(0);
-
+           
 
             foreach (var item in UserNames)
             {

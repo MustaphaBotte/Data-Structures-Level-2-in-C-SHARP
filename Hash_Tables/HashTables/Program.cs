@@ -27,10 +27,10 @@ namespace HashTables
             foreach(DictionaryEntry entry in hashtable)
             {
                 Console.WriteLine($"KEY {entry.Key} VALUE{entry.Value}");
+                entry.Key.GetType();
             }
 
-
-            // we will stop here because we will learn Dictionnary
+            // we will stop here because we will learn Dictionary
             // it's an advanced hashtable and it's a generic DS
             // so there is no boxing and unboxing
         }
