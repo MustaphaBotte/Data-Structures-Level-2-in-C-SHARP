@@ -332,6 +332,43 @@ namespace Lisked_List
             {
                 Console.WriteLine(item);
             }
+
+            LinkedList<string> Chains = new LinkedList<string>();
+            Chains.AddLast("ChainA"); // O(1)
+            Chains.AddLast("ChainB");
+            Chains.AddLast("ChainC");
+            Chains.AddLast("ChainD");
+            Chains.AddFirst("Chain_"); // O(1)
+
+            Console.Clear();
+            foreach (var item in Chains)
+            {
+                Console.WriteLine(item);
+            }
+
+            LinkedListNode<string>? Node = Chains.Find("ChainA"); // O(n)
+            if(Node!= null)
+            {
+                Console.WriteLine($"Node is founded : { Node.Value}");
+            }
+
+            Chains.AddBefore(Node, "Chain0"); // O(1)
+            Chains.AddAfter(Node, "ChainA+"); // O(1)
+            Chains.Remove("ChainA+");  // O(n)
+            Chains.Remove(Node);// O(1)
+            foreach (var item in Chains)
+            {
+                Console.WriteLine(item);
+            }
+
+            Chains.RemoveLast();// O(1)
+            Chains.RemoveFirst();// O(1)
+
+            Console.WriteLine("Removing last and first node");
+            foreach (var item in Chains)
+            {
+                Console.WriteLine(item);
+            }
         }
     }
 }
