@@ -1,4 +1,7 @@
-﻿namespace Arrays
+﻿using System.Diagnostics;
+using System.Text.RegularExpressions;
+
+namespace Arrays
 {
     internal class Program
     {
@@ -53,8 +56,77 @@
             Clone[0] = "update";
             Console.WriteLine(usernames[0]); // Untouched
 
-            int[,] nums = { { 10, 20, 30 }, { 40, 50, 60 } };
-          
+            int[,] nums = {
+                { 10, 20, 30 }, { 40, 50, 60 }, { 40, 50, 60 },};
+            int TotalRows = nums.GetLength(0);
+            int TotalColumns = nums.GetLength(1);
+
+            int totalElements = TotalRows * TotalColumns;
+
+
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            for(int i =0;i< totalElements; i++)
+            {
+                int Row = i / TotalColumns;
+                int Col = i % TotalColumns;
+
+                Console.Write(nums[Row,Col]+" ");
+
+                if(Col+1 == TotalColumns)
+                    Console.WriteLine();
+            }
+
+            var users = usernames.Where(user => user.Length > 5).Select(user => $"This user has length bigger than 5 :{user}");
+            foreach (var item in users)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine("=======================LINQ=============================");
+
+            var people = new[]
+            {
+               new { Name = "Alice",   Age = 30 ,Salary = 1000  ,DepartmentId = 2 },
+               new { Name = "Bob",     Age = 25, Salary = 5000  ,DepartmentId = 1 },
+               new { Name = "Charlie", Age = 35, Salary = 11000 ,DepartmentId = 1 },
+               new { Name = "Diana",   Age = 30, Salary = 2000  ,DepartmentId = 2 },
+               new { Name = "Ethan",   Age = 25, Salary = 500   ,DepartmentId = 1 }
+            };
+            var GroupByAge = people.GroupBy(person => person.Age).
+                Select(group => new {People = group.OrderBy(person=> person.Name) ,Age = group.Key});
+
+            foreach (var group in GroupByAge)
+            {
+                Console.WriteLine($"Group Age: {group.Age}");
+                foreach (var person in group.People)
+                {
+                    Console.WriteLine($"Name : {person.Name} Age : {person.Age}");
+                }
+            }
+            Console.WriteLine("Toatl Salaries " + people.Sum(p=>p.Salary));
+            Console.WriteLine("Average Salaries " + people.Average(p => p.Salary));
+            Console.WriteLine("Max Salary " + people.Max(p => p.Salary));
+            Console.WriteLine("Min Salary " + people.Min(p => p.Salary));
+
+
+            var departments = new[]
+            {
+            new { Id = 1, Name = "Human Resources" },
+            new { Id = 2, Name = "Development" }
+            };
+            Console.WriteLine("==================== JOIN =======================");
+            var JoinedResult = people.Join(departments,
+                               p => p.DepartmentId,
+                               d => d.Id,
+                               (person, department) => new { person.Salary, person.Age, person.Name, Department= department.Name}
+                               );
+
+            foreach (var person in JoinedResult)
+            {
+                Console.WriteLine($"Name : {person.Name} Age : {person.Age} Salary : {person.Salary} Department :{person.Department}");
+            }
+
+
         }
     }
 }
