@@ -333,6 +333,12 @@ namespace Lisked_List
                 Console.WriteLine(item);
             }
 
+
+
+            // ===================================== NOW AFTER IMPLEMENTING OUR DOUBLY LINKED LIST ==============================
+            // ===================================== NOW WE CAN USE THE BUILT-IN CLASS IN .NET ==================================
+
+
             LinkedList<string> Chains = new LinkedList<string>();
             Chains.AddLast("ChainA"); // O(1)
             Chains.AddLast("ChainB");
@@ -363,7 +369,7 @@ namespace Lisked_List
 
             Chains.RemoveLast();// O(1)
             Chains.RemoveFirst();// O(1)
-
+            
             Console.WriteLine("Removing last and first node");
             foreach (var item in Chains)
             {
