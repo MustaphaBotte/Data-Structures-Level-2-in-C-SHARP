@@ -113,11 +113,7 @@ namespace iList
             }
 
 
-           Type t = collection.GetType();
-            foreach (var item in t.GetMethods())
-            {
-                Console.WriteLine(item);
-            }
+          
         }
     }
 }
