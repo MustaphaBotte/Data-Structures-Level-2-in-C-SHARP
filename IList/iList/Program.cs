@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Microsoft.VisualBasic;
+using System.Collections;
 namespace iList
 {
     class CustomCollection<T> : IList<T>
@@ -111,9 +112,11 @@ namespace iList
             {
                 Console.WriteLine(item);
             }
-
-
-          
+            Console.WriteLine("Or using Index");
+            for (int i = 0; i < collection.Count; i++)
+            {
+                Console.WriteLine(collection[i]);
+            }
         }
     }
 }
