@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Globalization;
 using System.Text;
 
 namespace BIt_Array
@@ -119,13 +120,11 @@ namespace BIt_Array
 
             BitArray temp = new BitArray(4, true);
 
-
             temp.And(Permissions);
             Console.WriteLine("Can read   ? " + (temp[0]?"Yes":"No"));
             Console.WriteLine("Can update ? " + (temp[1]?"Yes":"No"));
             Console.WriteLine("Can insert ? " + (temp[2]?"Yes":"No"));
             Console.WriteLine("Can delete ? " + (temp[3]?"Yes":"No"));
-
 
         }
     }

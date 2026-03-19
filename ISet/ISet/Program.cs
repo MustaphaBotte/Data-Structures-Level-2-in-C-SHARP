@@ -1,10 +1,11 @@
 ﻿using System.Collections;
-namespace ISet
+namespace _ISet
 {
     internal class Program
     {
-        public interface ISet<T> : ICollection<T>, IEnumerable<T>, IEnumerable
+        public interface CustomISet<T> : ICollection<T>, IEnumerable<T>, IEnumerable
         {
+           
             // Add : Adds an element to the set, returns false if it already exists.
             bool Add(T item);
 
@@ -40,6 +41,7 @@ namespace ISet
         }
         static void Main(string[] args)
         {
+            
            // ISet Interface 
            // i will not implement the entire interface like i did before in IDictionary
            // you will find the method that you need to implement with a description

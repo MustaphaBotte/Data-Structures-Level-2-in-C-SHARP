@@ -1,5 +1,6 @@
 ﻿using static System.Net.Mime.MediaTypeNames;
 using System.Diagnostics.Metrics;
+using System.Globalization;
 
 namespace Tuples
 {
@@ -15,7 +16,6 @@ namespace Tuples
             // Using the tuple class
             Console.WriteLine("Tuple Class");
             Tuple<int, string, decimal> Employee = new Tuple<int, string, decimal>(1, "mustapha", 5000.4m);
-
 
             Console.WriteLine("Id " + Employee.Item1);
             Console.WriteLine("Name " + Employee.Item2);
@@ -52,7 +52,8 @@ namespace Tuples
             Console.WriteLine(Info.Name);
 
             Console.WriteLine(Info.GetType());
-
+           
+             
             // =================================== LINQ ===========================
 
             List<(int ID, string Name, decimal Salary)> Employees = new List<(int ID, string Name,decimal Salary)>()
