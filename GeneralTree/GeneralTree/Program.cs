@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Xml.Linq;
 
 namespace GeneralTree
 {
@@ -8,6 +9,7 @@ namespace GeneralTree
 
         public List<TreeNode<T>> Children { set; get; }
 
+        public TreeNode<T>? Parent = null;
         public TreeNode(T data)
         {
             this.Data = data;
@@ -17,9 +19,34 @@ namespace GeneralTree
         {
             foreach (var Child in ChildrenParams)
             {
+                Child.Parent = this;
                 Children.Add(Child);
             }
         }
+        public TreeNode<T>? Find(T Target)
+        {
+            if (Data != null && Data.Equals(Target))
+                return this;
+
+            foreach (var Child in Children)
+            {
+                TreeNode<T>? TargetNode = Child.Find(Target);
+                if (TargetNode != null)
+                    return TargetNode;
+
+            }
+            return null;
+        }
+
+        private bool DeleteCallBack(TreeNode<T> FolderNode, T Target)
+        {
+            return EqualityComparer<T>.Default.Equals(FolderNode.Data, Target);            
+        }
+        public bool DeleteChild(T Target)
+        {
+            return this.Children.RemoveAll(FolderNode=> DeleteCallBack(FolderNode,Target))>0;
+        }
+
     }
 
     public class Tree<T>
@@ -31,19 +58,47 @@ namespace GeneralTree
             this.Root = Root;
         }
         public void AddChild(params TreeNode<T>[] Children) => Root.AddChild(Children);
+        public TreeNode<T>? Find(T Target) => this.Root.Find(Target);
 
+        public bool Delete(TreeNode<T> Node)
+        {
+            if (Node == null)
+                throw new NullReferenceException("The Node Cannot BE Null here");
+
+            if(Node == this.Root)
+            {
+                throw new Exception("Cannot delete the root node");
+            }
+
+            // We are in the topmost of the tree
+            if(Node.Parent==null)
+            {
+                this.Root.DeleteChild(Node.Data);
+                return true;
+            }
+            if(Node.Parent.DeleteChild(Node.Data))
+            {
+                Node.Children.Clear();
+                return true;
+            }
+            return false;
+        }
         public void PrintFromNode(TreeNode<T> Node, string Indent = "  ")
         {
+            if (Node == null)
+                return;
+
             Console.WriteLine(Indent + Node.Data);
             foreach (var Child in Node.Children)
             {
-                PrintFromNode(Child, Indent+"   ");
+                PrintFromNode(Child, Indent+"  ");
             }
         }
-        public void Print()
+        public void Print(string Indent = "  ")
         {
-            PrintFromNode(this.Root);
+            PrintFromNode(this.Root, Indent);
         }
+
 
     } 
 
@@ -60,6 +115,18 @@ namespace GeneralTree
         public override string ToString()
         {
             return ShortName;
+        }
+        public override bool Equals(object? obj)
+        {
+            if (obj == null) return false;
+            if (!(obj is FolderInfo)) return false;
+
+            FolderInfo Other = (FolderInfo)obj;
+            return this.FullPath == Other.FullPath && this.ShortName == Other.ShortName;
+        }
+        public override int GetHashCode()
+        {
+            return FullPath.GetHashCode();
         }
     }
 
@@ -142,6 +209,7 @@ namespace GeneralTree
 
             // ========================== Example 2 : File System ========================
             string WindowsDirPath = "C:\\Users\\anonymous\\Documents";
+
             var builder = new FileSystemTreeBuilder(WindowsDirPath);
 
             Tree<FolderInfo> FileSystem = builder.BuildTree();
@@ -149,6 +217,29 @@ namespace GeneralTree
             Console.WriteLine("================================ File System  hierarchy ================================");
             FileSystem.Print();
 
+            FolderInfo folderInfo = new FolderInfo("C:\\Users\\anonymous\\Documents\\Pagination\\FamilyTreeExample\\FamilyTreeExample\\.vs", ".vs");
+            var FolderNode =  FileSystem.Find(folderInfo);
+            if(FolderNode != null)
+            {
+                Console.WriteLine("Folder is founded :)");
+                Console.WriteLine("Folder Name : "+ FolderNode.Data.ShortName);
+                Console.WriteLine("Folder Path : " + FolderNode.Data.FullPath);
+            }
+            else
+            {
+                Console.WriteLine("Not Found :(");
+            }
+
+            if(FileSystem.Delete(FolderNode))
+            {
+                Console.WriteLine(FolderNode.Data +" Is Deleted SuccessFully");
+                FileSystem.PrintFromNode(FolderNode.Parent); 
+                // "Print the parent tree to check if the node is removed
+            }
+            else
+            {
+                Console.WriteLine("Not Deleted");
+            }
         }
     }
 }
