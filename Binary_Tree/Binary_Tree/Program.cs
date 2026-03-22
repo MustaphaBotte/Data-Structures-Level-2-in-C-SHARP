@@ -255,9 +255,9 @@ namespace Binary_Tree
             binaryTree.InOrderWithoutRecursion(Value => Console.Write(Value + " "));
 
 
-            //Need the parent first → Pre-order
-            //Need sorted output → In-order
-            //Need children first → Post-order
+            //Need the parent first → Pre-order :copy, serialaize
+            //Need sorted output → In-order  ,  traverse the sorted tree (log n)
+            //Need children first → Post-order  (deleting tree , calculating size  )
         }
     }
 }
