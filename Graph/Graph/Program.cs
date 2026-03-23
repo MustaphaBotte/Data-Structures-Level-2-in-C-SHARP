@@ -5,27 +5,39 @@
         public enum EnGraphType { Directed, UnDirected };
 
         EnGraphType CurrentGraphType;
-        private IList<T> Vertices;
+
+        private Dictionary<T, int> Vertices;
+
+
 
         private int[,] AdjacancyMatrix;
 
         public Graph(IList<T> source, EnGraphType enGraphType)
         {
             CurrentGraphType = enGraphType;
-            this.Vertices = source;
-            AdjacancyMatrix = new int[Vertices.Count, Vertices.Count];
+            Vertices  = new Dictionary<T, int>(source.Count);
+
+            int UniqueIndex = 0;
+            for (int i= 0 ;i < source.Count; i++)
+            {
+                // any duplicated key will be replaced
+                if(!Vertices.ContainsKey(source[i]))
+                {
+                    Vertices[source[i]] = UniqueIndex++;
+                };     
+            }
+            AdjacancyMatrix = new int[UniqueIndex, UniqueIndex];
         }
 
         public void AddEdge(T source , T destination,int Weight)
         {
                          
 
-            int SrcIdx = Vertices.IndexOf(source);
-            if (SrcIdx < 0)
+            if(!Vertices.TryGetValue(source, out int SrcIdx))         
                 throw new Exception("Source Not Found");
 
-            int DestIdx = Vertices.IndexOf(destination);
-            if(DestIdx < 0)
+
+            if (!Vertices.TryGetValue(destination, out int DestIdx))
                 throw new Exception("Destination Not Found");
 
 
@@ -40,29 +52,31 @@
         {
             Console.WriteLine($"========== {Title} ==========");
             Console.Write("  ");
-            foreach (var item in Vertices)
-            {
-                Console.Write(item+" ");
-            }
-            Console.WriteLine();
-            for(int i = 0 ; i< Vertices.Count;i++)
-            {
-                Console.Write(Vertices[i] + " ");
 
-                for(int j=0;j< Vertices.Count; j++)
+            foreach (var key in Vertices.Keys)
+            {
+                Console.Write(key+" ");
+            }
+
+
+            Console.WriteLine();
+            foreach (var kvp in Vertices)
+            {
+                Console.Write(kvp.Key + " ");
+
+                for(int i=0; i< Vertices.Count;i++)
                 {
-                    Console.Write(AdjacancyMatrix[i,j]+" ");
+                    Console.Write(AdjacancyMatrix[kvp.Value,i]+" ");
                 }
                 Console.WriteLine();
             }
-            Console.WriteLine($"====================================");
 
+            Console.WriteLine($"====================================");
         }
 
         public int InDegreeOf(T vertex)
         {
-            int VertexIdx = Vertices.IndexOf(vertex);
-            if (VertexIdx < 0)
+            if (!Vertices.TryGetValue(vertex, out int VertexIdx))
                 throw new Exception("Vertex Not Found");
 
             int InDegree = 0;
@@ -77,8 +91,7 @@
         }
         public int OutDegreeOf(T vertex)
         {
-            int VertexIdx = Vertices.IndexOf(vertex);
-            if (VertexIdx < 0)
+            if (!Vertices.TryGetValue(vertex, out int VertexIdx))
                 throw new Exception("Vertex Not Found");
 
             int OutDegree = 0;
@@ -94,13 +107,14 @@
         public bool HasEdgeBetween(T source, T destination,out int weight)
         {
             weight = 0;
-            int SrcIdx = Vertices.IndexOf(source);
-            if (SrcIdx < 0)
+
+            if (!Vertices.TryGetValue(source, out int SrcIdx))
                 throw new Exception("Source Not Found");
 
-            int DestIdx = Vertices.IndexOf(destination);
-            if (DestIdx < 0)
+
+            if (!Vertices.TryGetValue(destination, out int DestIdx))
                 throw new Exception("Destination Not Found");
+
 
             if (AdjacancyMatrix[SrcIdx,DestIdx]>0)
             {
@@ -111,12 +125,11 @@
         }
         public void RemoveEdgeBetween(T source, T destination)
         {
-            int SrcIdx = Vertices.IndexOf(source);
-            if (SrcIdx < 0)
+            if (!Vertices.TryGetValue(source, out int SrcIdx))
                 throw new Exception("Source Not Found");
 
-            int DestIdx = Vertices.IndexOf(destination);
-            if (DestIdx < 0)
+
+            if (!Vertices.TryGetValue(destination, out int DestIdx))
                 throw new Exception("Destination Not Found");
 
             AdjacancyMatrix[SrcIdx, DestIdx] = 0;
@@ -131,7 +144,7 @@
     {
         static void Main()
         {
-            List<char> Vertices = new List<char> { 'A', 'B', 'C', 'D', 'E', 'F', 'G' };
+            List<char> Vertices = new List<char> {'A', 'A', 'B', 'C', 'D', 'E', 'F', 'G' };
 
             Graph<char> graph = new Graph<char>(Vertices,Graph<char>.EnGraphType.UnDirected);
 
@@ -151,11 +164,11 @@
             graph2.AddEdge('E', 'F', 1);
             graph2.AddEdge('F', 'G', 1);
             graph2.AddEdge('G', 'A', 1);
-            graph2.PrintGraph("Directed Graph");
+            graph2.PrintGraph("Directed Graph2");
 
 
-            Console.WriteLine("In Degree Of A   = "+graph.InDegreeOf('A'));
-            Console.WriteLine("Out Degree Of A  = " + graph.OutDegreeOf('A'));
+            Console.WriteLine("In Degree Of A In Graph  = "+graph.InDegreeOf('A'));
+            Console.WriteLine("Out Degree Of A In Graph = " + graph.OutDegreeOf('A'));
 
             Graph<char> graph3 = new Graph<char>(Vertices, Graph<char>.EnGraphType.UnDirected);
             // the weight here represensts Km from two places
@@ -165,12 +178,12 @@
             graph3.AddEdge('E', 'F', 8);
             graph3.AddEdge('F', 'G', 4);
             graph3.AddEdge('G', 'A', 1);
-            graph3.PrintGraph("UnDirected Graph");
+            graph3.PrintGraph("UnDirected Graph3");
 
-            Console.WriteLine("There is a Edge Between A and B? "+graph3.HasEdgeBetween('A','B',out int weight));
+            Console.WriteLine("There is a Edge Between A and B In Graph3? "+graph3.HasEdgeBetween('A','B',out int weight));
             graph3.RemoveEdgeBetween('A', 'B');
-            Console.WriteLine("There is a Edge Between A and B? " + graph3.HasEdgeBetween('A', 'B', out int weight2));
-            graph3.PrintGraph("UnDirected Graph");
+            Console.WriteLine("There is a Edge Between A and B In Graph3? " + graph3.HasEdgeBetween('A', 'B', out int weight2));
+            graph3.PrintGraph("UnDirected Graph3");
 
         }
     }
